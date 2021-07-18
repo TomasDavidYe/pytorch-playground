@@ -10,6 +10,6 @@ class ConstantExpression(Expression):
 
 
     def evaluate(self, df: pd.DataFrame):
-        return pd.Series([1 for x in range(len(df.index))])
+        return pd.Series([self.value for x in range(len(df.index))])
 
 

@@ -5,7 +5,10 @@ from models.LogisticsClassifier import LogisticsClassifier
 
 provider = GeometricDataProvider2D(
     equations=[
-        x_1() - x_2() <= const(0)
+        x_1() ** 2 + x_2() ** 2 <= const(1),
+        x_1() <= x_2(),
+        x_1() <= const(-1) * x_2()
+
     ],
     range_x1=(-2, 2),
     range_x2=(-2, 2)

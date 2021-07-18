@@ -4,8 +4,6 @@ import pandas as pd
 from expressions.Expression import Expression
 
 
-
-
 class GeometricDataProvider2D:
     def __init__(self, equations: list, range_x1: tuple, range_x2: tuple, granularity: int = 1000):
         self.granularity = granularity
@@ -13,6 +11,20 @@ class GeometricDataProvider2D:
 
     def get_data(self):
         return self.x1, self.x2, self.y
+
+
+    def evaluate_equations(self, equations, input_df, shape):
+        results = []
+        for equation in equations:
+            results.append(equation.evaluate(input_df).to_numpy().reshape(shape))
+
+        result = results[0]
+        for i in range(1, len(results)):
+            result = result & results[i]
+
+        return result
+
+
 
 
     def build_df(self, equations, range_x1, range_x2):
@@ -24,11 +36,15 @@ class GeometricDataProvider2D:
         x_2 = np.arange(range_x2[0], range_x2[1], step_x2)
         xx1, xx2 = np.meshgrid(x_1, x_2)
 
-        result = pd.DataFrame()
-        result['x_1'] = xx1.ravel()
-        result['x_2'] = xx2.ravel()
+        input_df = pd.DataFrame()
+        input_df['x_1'] = xx1.ravel()
+        input_df['x_2'] = xx2.ravel()
 
-        yy = equation.evaluate(result).to_numpy().reshape(xx1.shape)
+        yy = self.evaluate_equations(
+            equations=equations,
+            input_df=input_df,
+            shape=xx1.shape
+        )
 
         return xx1, xx2, yy
 
