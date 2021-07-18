@@ -30,7 +30,7 @@ class GeometricDataProvider2D:
         for i in range(1, len(results)):
             result = result & results[i]
 
-        return result
+        return result.to_numpy()
 
     def get_random_sample_from_distribution(self):
         max_points = 100 * self.num_of_samples
@@ -38,8 +38,8 @@ class GeometricDataProvider2D:
         x2 = self.range_x2[0] + np.random.random(max_points) * (self.range_x2[1] - self.range_x1[0])
         y = self.evaluate_equations(x1, x2)
 
-        index_set_positive = y.to_numpy().nonzero()[0][:100]
-        index_set_negative = (y == False).to_numpy().nonzero()[0][:100]
+        index_set_positive = y.nonzero()[0][:100]
+        index_set_negative = (y == False).nonzero()[0][:100]
         index_set = np.concatenate([index_set_positive, index_set_negative])
 
         print('num of positive examples = ', len(index_set_positive))
@@ -47,7 +47,11 @@ class GeometricDataProvider2D:
 
         return x1[index_set], x2[index_set], y[index_set]
 
+
     def get_distribution_contours(self):
+        self.get_contours(classifier=self.evaluate_equations)
+
+    def get_contours(self, classifier):
         step_x1 = (self.range_x1[1] - self.range_x1[0]) / self.plot_granularity
         step_x2 = (self.range_x2[1] - self.range_x2[0]) / self.plot_granularity
 
@@ -59,9 +63,9 @@ class GeometricDataProvider2D:
         input_df['x_1'] = xx1.ravel()
         input_df['x_2'] = xx2.ravel()
 
-        yy = self.evaluate_equations(
+        yy = classifier(
             x1=xx1.ravel(),
             x2=xx2.ravel()
-        ).to_numpy().reshape(xx1.shape)
+        ).reshape(xx1.shape)
 
         return xx1, xx2, yy
