@@ -40,7 +40,7 @@ class Simple2DExperiment:
         self.plot_samples(
             x1=train_x1,
             x2=train_x2,
-            y=predicted_train_y,
+            y=train_y,
             label='PREDICTED DISTRIBUTION'
         )
         plt.show()
