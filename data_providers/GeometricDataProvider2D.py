@@ -48,24 +48,3 @@ class GeometricDataProvider2D:
         return x1[index_set], x2[index_set], y[index_set]
 
 
-    def get_distribution_contours(self):
-        self.get_contours(classifier=self.evaluate_equations)
-
-    def get_contours(self, classifier):
-        step_x1 = (self.range_x1[1] - self.range_x1[0]) / self.plot_granularity
-        step_x2 = (self.range_x2[1] - self.range_x2[0]) / self.plot_granularity
-
-        x_1 = np.arange(self.range_x1[0], self.range_x1[1], step_x1)
-        x_2 = np.arange(self.range_x2[0], self.range_x2[1], step_x2)
-        xx1, xx2 = np.meshgrid(x_1, x_2)
-
-        input_df = pd.DataFrame()
-        input_df['x_1'] = xx1.ravel()
-        input_df['x_2'] = xx2.ravel()
-
-        yy = classifier(
-            x1=xx1.ravel(),
-            x2=xx2.ravel()
-        ).reshape(xx1.shape)
-
-        return xx1, xx2, yy
