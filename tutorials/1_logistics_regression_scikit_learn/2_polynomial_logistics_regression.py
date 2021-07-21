@@ -1,7 +1,7 @@
 from data_providers.GeometricDataProvider2D import GeometricDataProvider2D
 from experiments.Simple2DExperiment import Simple2DExperiment
 from expressions.expression_shortcuts import x_1, x_2, const
-from models.LogisticsClassifier2DScikitLearn import LogisticsClassifier2DScikitLearn
+from models.Models2D.LogisticsClassifier2DScikitLearn import LogisticsClassifier2DScikitLearn
 
 
 def feature_transform(x1, x2):

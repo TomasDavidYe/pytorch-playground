@@ -1,8 +1,10 @@
 import pandas as pd
 from sklearn.linear_model import LogisticRegression
 
+from models.Models2D.Abstract2DModel import Abstract2DModel
 
-class LogisticsClassifier2DScikitLearn:
+
+class LogisticsClassifier2DScikitLearn(Abstract2DModel):
     def __init__(self, feature_transform):
         self.feature_transform = feature_transform
         self.model = LogisticRegression(random_state=0)

@@ -38,13 +38,11 @@ class GeometricDataProvider2D:
         x2 = self.range_x2[0] + np.random.random(max_points) * (self.range_x2[1] - self.range_x1[0])
         y = self.evaluate_equations(x1, x2)
 
-        index_set_positive = y.nonzero()[0][:100]
-        index_set_negative = (y == False).nonzero()[0][:100]
+        index_set_positive = y.nonzero()[0][:self.num_of_samples]
+        index_set_negative = (y == False).nonzero()[0][:self.num_of_samples]
         index_set = np.concatenate([index_set_positive, index_set_negative])
 
         print('num of positive examples = ', len(index_set_positive))
         print('num of negative examples = ', len(index_set_negative))
 
         return x1[index_set], x2[index_set], y[index_set]
-
-
